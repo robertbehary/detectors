@@ -1,0 +1,9 @@
+<gcard>
+
+	<detector name="rich" factory="TEXT" variation="java"/>
+	<detector name="cad/" factory="CAD"/>
+
+	<!--	<detector name="rich" factory="TEXT" variation="original"/>-->
+
+	<option name="geometry" value="1400x1200"/>
+</gcard>

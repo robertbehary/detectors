@@ -5,8 +5,13 @@ use lib ("$ENV{GEMC}/api/perl");
 use utils;
 use parameters;
 use geometry;
+use hit;
+use bank;
 use math;
+use materials;
 use POSIX;
+
+use Math::Trig;
 
 # Help Message
 sub help()
@@ -28,29 +33,58 @@ if( scalar @ARGV != 1)
 # Loading configuration file and paramters
 our %configuration = load_configuration($ARGV[0]);
 
-
-# One can change the "variation" here if one is desired different from the config.dat
-# $configuration{"variation"} = "myvar";
-
 # To get the parameters proper authentication is needed.
-our %parameters    = get_parameters(%configuration);
+#our %parameters    = get_parameters(%configuration);
 
-# Loading RICH specific subroutines
-require "./geometry/box.pl";
-require "./geometry/frontal_system.pl";
-require "./geometry/pmt.pl";
+my $javaCadDir = "javacad";
+system(join(' ', 'groovy -cp "../*" factory.groovy', $javaCadDir));
 
-build_rich();
+# materials
+#require "./materials.pl";
 
-sub build_rich
+# banks definitions
+#require "./bank.pl";
+
+# hits definitions
+#require "./hit.pl";
+
+# Loading RICH specific subroutines for original geometry
+#require "./geometry/box.pl";
+#require "./geometry/frontal_system.pl";
+#require "./geometry/pmt.pl";
+
+# java geometry
+require "./geometry_java.pl";
+
+# all the scripts must be run for every configuration
+my @allConfs = ("original", "cad", "java");
+
+# bank definitions
+#define_bank();
+
+foreach my $conf ( @allConfs )
 {
-	for(my $s=4; $s<=4; $s++)
+	$configuration{"variation"} = $conf ;
+
+	if($configuration{"variation"} eq "java")
 	{
+		our @volumes = get_volumes(%configuration);
 
-		build_rich_box($s);
-		build_frontal_system_bottom($s);
-		build_frontal_system_top($s);
-		build_pmts($s);
-
+		coatjava::makeRICH($javaCadDir);
 	}
+	else
+	{
+		# geometry
+		my $s=4;
+		#build_rich_box($s);
+		#build_frontal_system_bottom($s);
+		#build_frontal_system_top($s);
+		#build_pmts($s);
+	}
+
+	# materials
+	#materials();
+	
+	# hits
+	#define_hit();
 }

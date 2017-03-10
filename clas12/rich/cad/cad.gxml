@@ -1,0 +1,7 @@
+<gxml>
+	<volume name="Aluminum" color="4444ff" material="G4_Al" position="0.000000*cm 0.000000*cm 0.000000*cm" rotation="0 0 0" />
+	<volume name="AerogelTiles" color="664444" material="aerogel" position="0.000000*cm 0.000000*cm 0.000000*cm" rotation="0 0 0" />
+	<volume name="CFRP" color="44ff44" material="carbonFiber" position="0.000000*cm 0.000000*cm 0.000000*cm" rotation="0 0 0" />
+	<volume name="Glass" color="777777" material="G4_SILICON_DIOXIDE" position="0.000000*cm 0.000000*cm 0.000000*cm" rotation="0 0 0" />
+	<volume name="TedlarWrapping" color="444444" material="Gas_inGap" position="0.000000*cm 0.000000*cm 0.000000*cm" rotation="0 0 0" />
+</gxml>
