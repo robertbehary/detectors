@@ -6,7 +6,7 @@ import org.jlab.detector.geant4.v2.*;
 
 RICHGeant4Factory factory = new RICHGeant4Factory();
 
-def outFile = new File("rich__volumes_java.txt");
+def outFile = new File("rich__volumes_javacad.txt");
 outFile.newWriter().withWriter { w ->
 	w<<factory;
 }

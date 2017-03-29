@@ -84,14 +84,11 @@ sub build_MESH
 
 sub build_PMTs{
 	my $PMT_rows = 23;
-	my $nPMTs = 0;
 	for(my $irow=0; $irow<$PMT_rows; $irow++){
 		my $nPMTInARow = 6 + $irow;
 
 		for(my $ipmt=0; $ipmt<$nPMTInARow; $ipmt++){
-			$nPMTs = $nPMTs+1;
-
-			my $vname = sprintf("PMTRow_${irow}_n${nPMTs}");
+			my $vname = sprintf("MAPMT_${irow}_${ipmt}");
 			my %detector = init_det();
 	
 			%detector = init_det();
@@ -109,7 +106,7 @@ sub build_PMTs{
 
 			my @Case = ("Top","Bottom","Left","Right");
 			foreach my $section (@Case){
-				my $AlCase = sprintf("Al${section}_${irow}_n${nPMTs}");
+				my $AlCase = sprintf("Al${section}_${vname}");
 				my %detector = init_det();
 	
 				$detector{"name"}        = "$AlCase";
@@ -124,7 +121,7 @@ sub build_PMTs{
 				print_det(\%main::configuration, \%detector);
 			}
 			
-			my $Socket = sprintf("Socket_${irow}_n${nPMTs}");
+			my $Socket = sprintf("Socket_${vname}");
 			
 			%detector = init_det();
 			$detector{"name"}        = "$Socket";
@@ -138,7 +135,7 @@ sub build_PMTs{
 			$detector{"material"}    = "G4_Cu";
 			print_det(\%main::configuration, \%detector);
 			
-			my $Window = sprintf("Window_${irow}_n${nPMTs}");
+			my $Window = sprintf("Window_${vname}");
 			
 			%detector = init_det();
 			$detector{"name"}        = "$Window";
@@ -152,7 +149,7 @@ sub build_PMTs{
 			$detector{"material"}    = "Glass_H8500";
 			print_det(\%main::configuration, \%detector);
 			
-			my $Photocathode = sprintf("Photocathode_${irow}_n${nPMTs}");
+			my $Photocathode = sprintf("Photocathode_${vname}");
 			
 			%detector = init_det();
 			$detector{"name"}        = "$Photocathode";
