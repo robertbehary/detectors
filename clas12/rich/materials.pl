@@ -83,24 +83,40 @@ my @abslength_window_h8500 = ( "42.0000*m",  "42.0000*m",  "42.0000*m",  "42.000
 
 # ------- gas in gap optical properties ---------
 
-# Index of refraction of air:
-my @irefr_gas_in_gap = ( 1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00,  1.00,  1.00,  1.00,  1.00,
-			     1.00 );
+# Index of refraction of nitrogen:
+my @irefr_gas_in_gap = ( 1.000296, 1.000296, 1.000296, 1.000296, 1.000296,
+			 1.000296, 1.000296, 1.000296, 1.000296, 1.000296,
+			 1.000296, 1.000296, 1.000296, 1.000296, 1.000297,
+			 1.000297, 1.000297, 1.000297, 1.000297, 1.000297,
+			 1.000297, 1.000297, 1.000297, 1.000297, 1.000297,
+			 1.000298, 1.000298, 1.000298, 1.000298, 1.000298,
+			 1.000298, 1.000298, 1.000299, 1.000299, 1.000299,
+			 1.000299, 1.000299, 1.000299, 1.000300, 1.000300,
+			 1.000300, 1.000300, 1.000301, 1.000301, 1.000301,
+			 1.000302, 1.000302, 1.000303, 1.000303, 1.000303,
+			 1.000304, 1.000305, 1.000305, 1.000306, 1.000307,
+			 1.000307, 1.000308, 1.000309, 1.000310, 1.000311,
+			 1.000313, 1.000314, 1.000316, 1.000317, 1.000320,
+			 1.000322, 1.000325, 1.000328, 1.000332, 1.000336,
+			 1.000341 );
 
-# absorption is the same of the window
+# absorption length of nitrogen (big number to avoid absorption)
+my @abslength_gas_in_gap = ( "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m", "1000.0*m",
+			     "1000.0*m" );
+
 
 # -------- aerogel properties ----------
 
@@ -140,8 +156,28 @@ my @abslength_aerogel = ( "29.2394*cm",   "28.9562*cm",   "28.6784*cm",   "26.89
 			  "0.242124*cm" );
 
 
-sub print_materials
+sub define_materials
 {
+    print "   -->> In define_materials\n";
+
+        # gas_ingap
+	my %mat = init_mat();
+        $mat{"name"}          = "Gas_inGap";
+        $mat{"description"}   = "Nitrogen with optical properties";
+        $mat{"density"}       = "0.001165";  # in g/cm3
+        $mat{"ncomponents"}   = "1";
+        $mat{"components"}    = "N 2";
+        $mat{"photonEnergy"}      = arrayToString(@penergy);
+        $mat{"indexOfRefraction"} = arrayToString(@irefr_gas_in_gap);
+        $mat{"absorptionLength"}  = arrayToString(@abslength_gas_in_gap);
+	print_mat(\%configuration, \%mat);
+ 
+}
+
+
+sub define_aerogel
+{
+
     # typical index of refraction of an aerogel tile
 	my %mat = init_mat();
 	$mat{"name"}          = "aerogel";
@@ -154,18 +190,95 @@ sub print_materials
 	$mat{"absorptionLength"}  = arrayToString(@abslength_aerogel);
 	print_mat(\%configuration, \%mat);
 
-	%mat = init_mat();
-	$mat{"name"}          = "rohacell31";
-	$mat{"description"}   = "htcc gas is 100% CO2 with optical properties";
-	$mat{"density"}       = "0.032";
-	$mat{"ncomponents"}   = "4";
-	$mat{"components"}    = "G4_C 0.6463 G4_H 0.0784 G4_N 0.0839 G4_O 0.1914";
-	print_mat(\%configuration, \%mat);
 
 }
 
 
-sub define_material
+sub define_MAPMT
+{
+
+	my %mat = init_mat();
+	# materials for the H8500 window - BoromTriOxide
+	$mat{"name"}          = "BoromTriOxide";
+	$mat{"description"}   = "MAPMT window component";
+	$mat{"density"}       = "2.55";  # in g/cm3
+	$mat{"ncomponents"}   = "2";
+	$mat{"components"}    = "B 2 O 3";
+	print_mat(\%configuration, \%mat);
+
+	# materials for the H8500 window - MagnesiumOxide
+	%mat = init_mat();
+	$mat{"name"}          = "MagnesiumOxide";
+	$mat{"description"}   = "MAPMT window component";
+	$mat{"density"}       = "3.58";  # in g/cm3
+	$mat{"ncomponents"}   = "2";
+	$mat{"components"}    = "Mg 1 O 1";
+	print_mat(\%configuration, \%mat);
+
+	# materials for the H8500 window - IronTriOxide
+	%mat = init_mat();
+	$mat{"name"}          = "IronTriOxide";
+	$mat{"description"}   = "MAPMT window component";
+	$mat{"density"}       = "5.242";  # in g/cm3
+	$mat{"ncomponents"}   = "2";
+	$mat{"components"}    = "Fe 1 O 3";
+	print_mat(\%configuration, \%mat);
+
+	# materials for the H8500 window - SilicOxide
+	%mat = init_mat();
+	$mat{"name"}          = "SilicOxide";
+	$mat{"description"}   = "MAPMT window component";
+	$mat{"density"}       = "2.00";  # in g/cm3 --> CHECK THE DENSITY: questa me la sono inventata io!
+	$mat{"ncomponents"}   = "2";
+	$mat{"components"}    = "Si 1 O 1";
+	print_mat(\%configuration, \%mat);
+
+
+	# materials for the H8500 window - SodMonOxide
+	%mat = init_mat();
+	$mat{"name"}          = "SodMonOxide";
+	$mat{"description"}   = "MAPMT window component";
+	$mat{"density"}       = "2.00";  # in g/cm3 --> CHECK THE DENSITY: questa me la sono inventata io!
+	$mat{"ncomponents"}   = "2";
+	$mat{"components"}    = "N 1 O 1";
+	print_mat(\%configuration, \%mat);
+
+	# materials for the H8500 window - CalciumOxide
+	%mat = init_mat();
+	$mat{"name"}          = "CalciumOxide";
+	$mat{"description"}   = "MAPMT window component";
+	$mat{"density"}       = "3.3";  # in g/cm3 
+	$mat{"ncomponents"}   = "2";
+	$mat{"components"}    = "Ca 1 O 1";
+	print_mat(\%configuration, \%mat);
+
+	# materials for the H8500 window - AluminiumOxide
+	%mat = init_mat();
+	$mat{"name"}          = "AluminiumOxide";
+	$mat{"description"}   = "MAPMT window component";
+	$mat{"density"}       = "3.97";  # in g/cm3
+	$mat{"ncomponents"}   = "2";
+	$mat{"components"}    = "Al 2 O 3";
+	print_mat(\%configuration, \%mat);
+
+
+	# h8500 windows
+	%mat = init_mat();
+	$mat{"name"}          = "Glass_H8500";
+	$mat{"description"}   = "MAPMT window";
+	$mat{"density"}       = "2.76";  # in g/cm3
+	$mat{"ncomponents"}   = "8";
+	$mat{"components"}    = "G4_SILICON_DIOXIDE 0.8071 G4_BORON_OXIDE 0.126 G4_SODIUM_MONOXIDE 0.042 G4_ALUMINUM_OXIDE 0.022 G4_CALCIUM_OXIDE 0.001 G4_Cl 0.001 G4_MAGNESIUM_OXIDE 0.0005 G4_FERRIC_OXIDE 0.0004";
+	$mat{"photonEnergy"}      = arrayToString(@penergy);
+        $mat{"indexOfRefraction"} = arrayToString(@irefr_window_h8500);
+        $mat{"absorptionLength"}  = arrayToString(@abslength_window_h8500);
+ 	print_mat(\%configuration, \%mat);
+
+}
+
+
+
+sub define_CFRP
 {
 
         my %mat = init_mat();
@@ -188,116 +301,15 @@ sub define_material
 	$mat{"components"}    = "G4_C 0.745 epoxy 0.255";
 	print_mat(\%configuration, \%mat);
 
-
-        # gas_ingap
-	%mat = init_mat();
-        $mat{"name"}          = "Gas_inGap";
-        $mat{"description"}   = "gas in gap";
-        $mat{"density"}       = "0.00129";  # in g/cm3
-        $mat{"ncomponents"}   = "2";
-        $mat{"components"}    = "C 1 O 2";
-        $mat{"photonEnergy"}      = arrayToString(@penergy);
-        $mat{"indexOfRefraction"} = arrayToString(@irefr_gas_in_gap);
-        $mat{"absorptionLength"}  = arrayToString(@abslength_window_h8500);
-        print_mat(\%configuration, \%mat);
-
-	# h8500 windows
-	%mat = init_mat();
-	$mat{"name"}          = "Glass_H8500";
-	$mat{"description"}   = "Glass_H8500";
-	$mat{"density"}       = "2.76";  # in g/cm3
-	$mat{"ncomponents"}   = "8";
-	$mat{"components"}    = "G4_SILICON_DIOXIDE 0.8071 G4_BORON_OXIDE 0.126 G4_SODIUM_MONOXIDE 0.042 G4_ALUMINUM_OXIDE 0.022 G4_CALCIUM_OXIDE 0.001 G4_Cl 0.001 G4_MAGNESIUM_OXIDE 0.0005 G4_FERRIC_OXIDE 0.0004";
-	$mat{"photonEnergy"}      = arrayToString(@penergy);
-        $mat{"indexOfRefraction"} = arrayToString(@irefr_window_h8500);
-        $mat{"absorptionLength"}  = arrayToString(@abslength_window_h8500);
- 	print_mat(\%configuration, \%mat);
-
-	# NOV105_2cm_cern6_tile1
-	%mat = init_mat();
-	$mat{"name"}          = "NOV105_2cm_cern6_tile1";
-	$mat{"description"}   = "NOV105_2cm_cern6_tile1";
-	$mat{"density"}       = "0.24";  # in g/cm3
-	$mat{"ncomponents"}   = "1";
-#	$mat{"components"}    = "AerogelQuartz 97.0 H2O 3";
-	$mat{"components"}    = "G4_SILICON_DIOXIDE 1.0";
-	print_mat(\%configuration, \%mat);
-
 }
 
 
-sub define_photocatode_materials
-{
+define_materials();
 
-	my %mat = init_mat();
-	# materials for the H8500 window - BoromTriOxide
-	$mat{"name"}          = "BoromTriOxide";
-	$mat{"description"}   = "BoromTriOxide";
-	$mat{"density"}       = "2.55";  # in g/cm3
-	$mat{"ncomponents"}   = "2";
-	$mat{"components"}    = "B 2 O 3";
-	print_mat(\%configuration, \%mat);
+define_aerogel();
 
-	# materials for the H8500 window - MagnesiumOxide
-	%mat = init_mat();
-	$mat{"name"}          = "MagnesiumOxide";
-	$mat{"description"}   = "MagnesiumOxide";
-	$mat{"density"}       = "3.58";  # in g/cm3
-	$mat{"ncomponents"}   = "2";
-	$mat{"components"}    = "Mg 1 O 1";
-	print_mat(\%configuration, \%mat);
+define_MAPMT();
 
-	# materials for the H8500 window - IronTriOxide
-	%mat = init_mat();
-	$mat{"name"}          = "IronTriOxide";
-	$mat{"description"}   = "IronTriOxide";
-	$mat{"density"}       = "5.242";  # in g/cm3
-	$mat{"ncomponents"}   = "2";
-	$mat{"components"}    = "Fe 1 O 3";
-	print_mat(\%configuration, \%mat);
+define_CFRP();
 
-	# materials for the H8500 window - SilicOxide
-	%mat = init_mat();
-	$mat{"name"}          = "SilicOxide";
-	$mat{"description"}   = "SilicOxide";
-	$mat{"density"}       = "2.00";  # in g/cm3 --> CHECK THE DENSITY: questa me la sono inventata io!
-	$mat{"ncomponents"}   = "2";
-	$mat{"components"}    = "Si 1 O 1";
-	print_mat(\%configuration, \%mat);
-
-
-	# materials for the H8500 window - SodMonOxide
-	%mat = init_mat();
-	$mat{"name"}          = "SodMonOxide";
-	$mat{"description"}   = "SodMonOxide";
-	$mat{"density"}       = "2.00";  # in g/cm3 --> CHECK THE DENSITY: questa me la sono inventata io!
-	$mat{"ncomponents"}   = "2";
-	$mat{"components"}    = "N 1 O 1";
-	print_mat(\%configuration, \%mat);
-
-	# materials for the H8500 window - CalciumOxide
-	%mat = init_mat();
-	$mat{"name"}          = "CalciumOxide";
-	$mat{"description"}   = "CalciumOxide";
-	$mat{"density"}       = "3.3";  # in g/cm3 
-	$mat{"ncomponents"}   = "2";
-	$mat{"components"}    = "Ca 1 O 1";
-	print_mat(\%configuration, \%mat);
-
-	# materials for the H8500 window - AluminiumOxide
-	%mat = init_mat();
-	$mat{"name"}          = "AluminiumOxide";
-	$mat{"description"}   = "AluminiumOxide";
-	$mat{"density"}       = "3.97";  # in g/cm3
-	$mat{"ncomponents"}   = "2";
-	$mat{"components"}    = "Al 2 O 3";
-	print_mat(\%configuration, \%mat);
-
-
-}
-
-define_material();
-
-print_materials();
-
-define_photocatode_materials();
+1;

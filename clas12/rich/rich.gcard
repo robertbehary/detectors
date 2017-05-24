@@ -1,9 +1,14 @@
 <gcard>
+	<option name="geometry" value="1400x1200"/>
 
-	<detector name="rich" factory="TEXT" variation="javacad"/>
 	<detector name="javacad/" factory="CAD"/>
 
-	<!--	<detector name="rich" factory="TEXT" variation="original"/>-->
+	<detector name="rich" factory="TEXT" variation="java"/>
 
-	<option name="geometry" value="1400x1200"/>
+     <option name="PHYSICS" value="FTFP_BERT + STD + Optical"/>
+
+
+       <option name="BEAM_P"         value="pi-, 6*GeV, 5.7*deg, 185*deg" />
+        <option name="BEAM_V"         value="(-0.0.,0.,0.)cm" />
+
 </gcard>

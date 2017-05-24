@@ -6,7 +6,7 @@ import org.jlab.detector.geant4.v2.*;
 
 RICHGeant4Factory factory = new RICHGeant4Factory();
 
-def outFile = new File("rich__volumes_javacad.txt");
+def outFile = new File("rich__volumes_java.txt");
 outFile.newWriter().withWriter { w ->
 	w<<factory;
 }
@@ -14,8 +14,8 @@ outFile.newWriter().withWriter { w ->
 def dirName = args[0];
 new File(dirName).mkdir();
 
-factory.getComponents().forEach{ volume ->
+factory.getAllVolumes().forEach{ volume ->
 	if(volume.getType()=="Stl"){
-		volume.getPrimitive().toCSG().toStlFile(sprintf("%s/%s.stl", [dirName, volume.getName()]));
+		volume.getPrimitive().copyToStlFile(sprintf("%s/%s.stl", [dirName, volume.getName()]));
 	}
 }

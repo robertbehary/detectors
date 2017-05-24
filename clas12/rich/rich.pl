@@ -57,7 +57,7 @@ system(join(' ', 'groovy -cp "../*" factory.groovy', $javaCadDir));
 require "./geometry_java.pl";
 
 # all the scripts must be run for every configuration
-my @allConfs = ("javacad");
+my @allConfs = ("java");
 
 # bank definitions
 #define_bank();
@@ -66,7 +66,7 @@ foreach my $conf ( @allConfs )
 {
 	$configuration{"variation"} = $conf ;
 
-	if($configuration{"variation"} eq "javacad")
+	if($configuration{"variation"} eq "java")
 	{
 		our @volumes = get_volumes(%configuration);
 		coatjava::makeRICH($javaCadDir);

@@ -34,9 +34,13 @@ sub print {
 	foreach my $det (@{$self->{_volumes}}){
 		printf INFO ("\t<volume name=\"%s\"", $det->{"name"});
 		printf INFO (" color=\"%s\"", $det->{"color"});
+		printf INFO (" style=\"%s\"", $det->{"style"});
 		printf INFO (" material=\"%s\"", $det->{"material"});
 		printf INFO (" position=\"%s\"", $det->{"pos"});
 		printf INFO (" rotation=\"%s\"", $det->{"rotation"});
+		if($det->{"mother"} ne "root"){
+			printf INFO (" mother=\"%s\"", $det->{"mother"});
+		}
 		if($det->{"sensitivity"} ne "no"){
 			printf INFO (" sensitivity=\"%s\"", $det->{"sensitivity"});
 			printf INFO (" identifiers=\"%s\"", $det->{"identifiers"});

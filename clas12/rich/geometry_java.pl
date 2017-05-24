@@ -15,8 +15,6 @@ sub makeRICH
 {
 	($mothers, $positions, $rotations, $types, $dimensions, $ids) = @main::volumes;
 
-	build_fake_mother();
-
 	my $dirName = shift;
 	build_gxml($dirName);
 }
@@ -37,7 +35,7 @@ sub build_gxml
 sub build_MESH
 {
 	my $gxmlFile = shift;
-	my @allMeshes =("Aluminum","AerogelTiles","CFRP","Glass","TedlarWrapping");
+	my @allMeshes =("OpticalGasVolume", "Aluminum","AerogelTiles","CFRP","Glass","TedlarWrapping");
 	foreach my $mesh (@allMeshes)
 	{
 		my %detector = init_det();
@@ -47,6 +45,7 @@ sub build_MESH
 		$detector{"name"}        = $vname;
 		$detector{"pos"}         = $positions->{$vname};
 		$detector{"rotation"}    = $rotations->{$vname};
+		$detector{"mother"}      = $mothers->{$vname};
 		
 		if($mesh eq "Aluminum"){
 			$detector{"color"}       = "4444ff";
@@ -61,9 +60,8 @@ sub build_MESH
 		}
 		elsif($mesh eq "CFRP"){
 			$detector{"color"}       = "44ff44";
-			$detector{"material"}    = "carbonFiber";
+			$detector{"material"}    = "CarbonFiber";
 			$detector{"identifiers"}    = "aluminum";
-
 		}
 		elsif($mesh eq "Glass"){
 			$detector{"color"}       = "777777";
@@ -75,7 +73,11 @@ sub build_MESH
 			$detector{"color"}       = "444444";
 			$detector{"material"}    = "Gas_inGap";
 			$detector{"identifiers"}    = "aluminum";
-
+		}
+		elsif($mesh eq "OpticalGasVolume"){
+			$detector{"color"}       = "444444";
+			$detector{"style"}       = "wireframe";
+			$detector{"material"}    = "Gas_inGap";
 		}
 
 		$gxmlFile->add(\%detector);
