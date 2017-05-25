@@ -11,8 +11,6 @@ use math;
 use materials;
 use POSIX;
 
-use Math::Trig;
-
 # Help Message
 sub help()
 {

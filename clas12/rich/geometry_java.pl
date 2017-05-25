@@ -35,7 +35,8 @@ sub build_gxml
 sub build_MESH
 {
 	my $gxmlFile = shift;
-	my @allMeshes =("OpticalGasVolume", "Aluminum","AerogelTiles","CFRP","Glass","TedlarWrapping");
+#	my @allMeshes =("OpticalGasVolume", "Aluminum","AerogelTiles","CFRP","Glass","TedlarWrapping");
+	my @allMeshes =("Aluminum","AerogelTiles","CFRP","Glass","TedlarWrapping");
 	foreach my $mesh (@allMeshes)
 	{
 		my %detector = init_det();
